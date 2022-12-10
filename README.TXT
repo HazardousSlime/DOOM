@@ -1,3 +1,7 @@
+Just practicing porting Linux Doom from 1997 to modern Linux for fun.
+Below is the original message from John Carmack.
+
+====================================================================
 
 Here it is, at long last.  The DOOM source code is released for your
 non-profit use.  You still need real DOOM data to work with this code.

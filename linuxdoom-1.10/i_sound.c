@@ -58,6 +58,8 @@ rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 
 #include "doomdef.h"
 
+#include <errno.h> //(modified)
+
 // UNIX hack, to be removed.
 #ifdef SNDSERV
 // Separate sound server process.
