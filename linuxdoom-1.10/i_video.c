@@ -165,12 +165,17 @@ int xlatekey(void)
 void I_ShutdownGraphics(void)
 {
   // Detach from X server
+  //This pointer is null and causes a segmentation fault...
+  //It is only not null if I_InitGraphics runs successfully
+  if(!X_display)
+	return;
+
   if (!XShmDetach(X_display, &X_shminfo))
 	    I_Error("XShmDetach() failed in I_ShutdownGraphics()");
 
   // Release shared memory.
-  shmdt(X_shminfo.shmaddr);
-  shmctl(X_shminfo.shmid, IPC_RMID, 0);
+  	shmdt(X_shminfo.shmaddr);
+  	shmctl(X_shminfo.shmid, IPC_RMID, 0);
 
   // Paranoia.
   image->data = NULL;
