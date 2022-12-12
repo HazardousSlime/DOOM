@@ -1,3 +1,5 @@
 *.wad
+DOOM2.WAD
+*.WAD
 linux/**
 #!linux/.gitkeep
