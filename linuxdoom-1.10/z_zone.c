@@ -27,7 +27,7 @@ rcsid[] = "$Id: z_zone.c,v 1.4 1997/02/03 16:47:58 b1 Exp $";
 #include "z_zone.h"
 #include "i_system.h"
 #include "doomdef.h"
-
+#include <stdlib.h>
 
 //
 // ZONE MEMORY ALLOCATION
@@ -121,6 +121,10 @@ void Z_Init (void)
 //
 void Z_Free (void* ptr)
 {
+
+    //free(ptr);
+    //return;
+
     memblock_t*		block;
     memblock_t*		other;
 	
@@ -186,6 +190,9 @@ Z_Malloc
   int		tag,
   void*		user )
 {
+
+    //return malloc(size);      //Disabling Zone allocator temporarily
+
     int		extra;
     memblock_t*	start;
     memblock_t* rover;

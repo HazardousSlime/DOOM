@@ -47,6 +47,7 @@ rcsid[] = "$Id: r_data.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
 
 #include "r_data.h"
+#include <assert.h>
 
 //
 // Graphics.
@@ -87,7 +88,9 @@ typedef struct
     boolean		masked;	
     short		width;
     short		height;
-    void		**columndirectory;	// OBSOLETE
+    //If it was a snake, it would have bit me...
+    char        padding[4];
+    //void		**columndirectory;	// OBSOLETE
     short		patchcount;
     mappatch_t	patches[1];
 } maptexture_t;
@@ -454,6 +457,7 @@ void R_InitTextures (void)
     {
 	strncpy (name,name_p+i*8, 8);
 	patchlookup[i] = W_CheckNumForName (name);
+    //assert(patchlookup[i] < 350);
     }
     Z_Free (names);
     
@@ -521,24 +525,39 @@ void R_InitTextures (void)
 	
 	mtexture = (maptexture_t *) ( (byte *)maptex + offset);
 
+    printf("mtexture patch: %d\n", mtexture->patches[0].patch);
+    printf("patch count: %d\n", mtexture->patchcount);
+    printf("name: %s\n", mtexture->name);
+
 	texture = textures[i] =
 	    Z_Malloc (sizeof(texture_t)
-		      + sizeof(texpatch_t)*(SHORT(mtexture->patchcount)-1),
+		      + sizeof(texpatch_t)*(SHORT(mtexture->patchcount)-1),    
 		      PU_STATIC, 0);
+
+    //printf("mtexture patch after alloc: %d\n", mtexture->patches[0].patch);
+
 	
 	texture->width = SHORT(mtexture->width);
 	texture->height = SHORT(mtexture->height);
 	texture->patchcount = SHORT(mtexture->patchcount);
 
+    //printf("patch count: %d\n", texture->patchcount);
+
 	memcpy (texture->name, mtexture->name, sizeof(texture->name));
 	mpatch = &mtexture->patches[0];
+    //printf("mpatch->patch: %d\n", mpatch->patch);
+
 	patch = &texture->patches[0];
+    //printf("name: %s\n", texture->name);
+    //continue;
 
 	for (j=0 ; j<texture->patchcount ; j++, mpatch++, patch++)
-	{
+	{   
 	    patch->originx = SHORT(mpatch->originx);
 	    patch->originy = SHORT(mpatch->originy);
-	    patch->patch = patchlookup[SHORT(mpatch->patch)];
+        //printf("mpatch->patch: %d\n", mpatch->patch);
+        //if(mpatch->patch < nummappatches)
+        patch->patch = patchlookup[SHORT(mpatch->patch)];
 	    if (patch->patch == -1)
 	    {
 		I_Error ("R_InitTextures: Missing patch in texture %s",

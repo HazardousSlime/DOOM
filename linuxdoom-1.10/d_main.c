@@ -757,6 +757,7 @@ void FindResponseFile (void)
 		moreargs[index++] = myargv[k];
 			
 	    firstargv = myargv[0];
+		//Note sizeof(char *) is 8 on 64-bit systems
 	    myargv = malloc(sizeof(char *)*MAXARGVS);
 	    memset(myargv,0,sizeof(char *)*MAXARGVS);
 	    myargv[0] = firstargv;
@@ -798,8 +799,11 @@ void D_DoomMain (void)
     int             p;
     char                    file[256];
 
+	//Searches for a file containing additional parameters, looks safe and portable
+	//Does not use binary file I/O
     FindResponseFile ();
 	
+	//Appears to identify the game version correctly
     IdentifyVersion ();
 	
     setbuf (stdout, NULL);
@@ -1011,9 +1015,14 @@ void D_DoomMain (void)
     printf ("V_Init: allocate screens.\n");
     V_Init ();
 
+
+	//Sets default values to hardcoded values or reads from a text file
+	//Looks portable
     printf ("M_LoadDefaults: Load system defaults.\n");
     M_LoadDefaults ();              // load before initing other systems
 
+	//Memory allocator looks "safe" or no more dangerous than
+	//using malloc/free
     printf ("Z_Init: Init zone memory allocation daemon. \n");
     Z_Init ();
 
@@ -1088,6 +1097,7 @@ void D_DoomMain (void)
 	break;
     }
 
+	//Seems safe
     printf ("M_Init: Init miscellaneous info.\n");
     M_Init ();
 

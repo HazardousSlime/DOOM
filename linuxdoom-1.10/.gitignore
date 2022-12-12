@@ -1,2 +1,3 @@
+*.wad
 linux/**
 #!linux/.gitkeep

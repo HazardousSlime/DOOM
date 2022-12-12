@@ -28,6 +28,7 @@
 #pragma interface
 #endif
 
+//I won't touch these structures for now
 
 //
 // TYPES
@@ -39,7 +40,7 @@ typedef struct
     int			numlumps;
     int			infotableofs;
     
-} wadinfo_t;
+}__attribute__((packed)) wadinfo_t;
 
 
 typedef struct
@@ -48,7 +49,7 @@ typedef struct
     int			size;
     char		name[8];
     
-} filelump_t;
+}__attribute__((packed)) filelump_t;
 
 //
 // WADFILE I/O related stuff.
@@ -59,7 +60,7 @@ typedef struct
     int		handle;
     int		position;
     int		size;
-} lumpinfo_t;
+}__attribute__((packed)) lumpinfo_t;
 
 
 extern	void**		lumpcache;
