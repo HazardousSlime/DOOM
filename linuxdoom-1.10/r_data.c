@@ -324,6 +324,7 @@ void R_GenerateLookup(int texnum)
         for (; x < x2; x++)
         {
             patchcount[x]++;
+            //collump is getting set to the same memory location as the textures and corrupting them...
             collump[x] = patch->patch;
             colofs[x] = LONG(realpatch->columnofs[x - x1]) + 3;
         }
@@ -455,13 +456,14 @@ void R_InitTextures(void)
     }
     numtextures = numtextures1 + numtextures2;
 
-    textures = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    texturecolumnlump = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    texturecolumnofs = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    texturecomposite = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    texturecompositesize = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    texturewidthmask = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-    textureheight = Z_Malloc(numtextures * 4, PU_STATIC, 0);
+    //More of those pesky 4-byte pointers
+    textures = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    texturecolumnlump = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    texturecolumnofs = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    texturecomposite = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    texturecompositesize = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    texturewidthmask = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
+    textureheight = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
 
     totalwidth = 0;
 
