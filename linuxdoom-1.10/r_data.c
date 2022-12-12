@@ -48,6 +48,7 @@ static const char
 #include <assert.h>
 #include <stdlib.h>
 
+
 //
 // Graphics.
 // DOOM graphics for walls and sprites
@@ -88,7 +89,7 @@ typedef struct
     char padding[4];
     // void		**columndirectory;	// OBSOLETE
     short patchcount;
-    mappatch_t patches[1];                        
+    mappatch_t patches[1];
 } maptexture_t;
 
 // A single patch from a texture definition,
@@ -324,7 +325,7 @@ void R_GenerateLookup(int texnum)
         for (; x < x2; x++)
         {
             patchcount[x]++;
-            //collump is getting set to the same memory location as the textures and corrupting them...
+            // collump is getting set to the same memory location as the textures and corrupting them...
             collump[x] = patch->patch;
             colofs[x] = LONG(realpatch->columnofs[x - x1]) + 3;
         }
@@ -456,7 +457,7 @@ void R_InitTextures(void)
     }
     numtextures = numtextures1 + numtextures2;
 
-    //More of those pesky 4-byte pointers
+    // More of those pesky 4-byte pointers
     textures = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
     texturecolumnlump = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
     texturecolumnofs = Z_Malloc(numtextures * sizeof(void *), PU_STATIC, 0);
@@ -499,13 +500,12 @@ void R_InitTextures(void)
 
         mtexture = (maptexture_t *)((byte *)maptex + offset);
 
-        printf("mtexture patch: %d\n", mtexture->patches[0].patch);
-        printf("patch count: %d\n", mtexture->patchcount);
-        printf("name: %s\n", mtexture->name);
+        //printf("mtexture patch: %d\n", mtexture->patches[0].patch);
+        //printf("patch count: %d\n", mtexture->patchcount);
+        //printf("name: %s\n", mtexture->name);
 
-        
-        //The heap is becoming corrupted somehow even using malloc instead of Z_Malloc
-        textures[i] = //malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1) );                           
+        // The heap is becoming corrupted somehow even using malloc instead of Z_Malloc
+        textures[i] = // malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1) );
             Z_Malloc(sizeof(texture_t) + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1),
                      PU_STATIC, 0);
         texture = textures[i];
@@ -627,7 +627,10 @@ void R_InitColormaps(void)
     lump = W_GetNumForName("COLORMAP");
     length = W_LumpLength(lump) + 255;
     colormaps = Z_Malloc(length, PU_STATIC, 0);
-    colormaps = (byte *)(((int)colormaps + 255) & ~0xff);
+    //Pointer getting cast to an int.
+    //colormaps = (byte *)(((int)colormaps + 255) & ~0xff);
+    colormaps = (byte *)(((u_int64_t)colormaps + 255) & ~0xff);
+
     W_ReadLump(lump, colormaps);
 }
 
