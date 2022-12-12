@@ -346,7 +346,7 @@ int W_CheckNumForName(char *name)
     // in case the name was a fill 8 chars
     name8.s[8] = 0;
 
-    puts(name8.s);
+    //puts(name8.s);
 
     // case insensitive
     strupr(name8.s);

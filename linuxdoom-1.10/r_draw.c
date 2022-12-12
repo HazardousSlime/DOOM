@@ -461,7 +461,8 @@ void R_InitTranslationTables (void)
     int		i;
 	
     translationtables = Z_Malloc (256*3+255, PU_STATIC, 0);
-    translationtables = (byte *)(( (int)translationtables + 255 )& ~255);
+    //Another pointer getting cast to an int
+    translationtables = (byte *)(( (__uint64_t)translationtables + 255 )& ~255);
     
     // translate just the 16 green colors
     for (i=0 ; i<256 ; i++)
