@@ -58,6 +58,7 @@ int     Z_FreeMemory (void);
 typedef struct memblock_s
 {
     int			size;	// including the header and possibly tiny fragments
+    //Note: this has size 8 on 64-bit machines
     void**		user;	// NULL if a free block
     int			tag;	// purgelevel
     int			id;	// should be ZONEID

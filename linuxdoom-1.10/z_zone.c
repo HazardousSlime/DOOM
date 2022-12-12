@@ -199,7 +199,9 @@ Z_Malloc
     memblock_t* newblock;
     memblock_t*	base;
 
-    size = (size + 3) & ~3;
+    //size = (size + 3) & ~3;   //Fiddling with thsi alignment to see what happens
+    size = (size + 7) & ~7;
+
     
     // scan through the block list,
     // looking for the first free block

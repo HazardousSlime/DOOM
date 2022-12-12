@@ -458,7 +458,7 @@ W_CacheLumpNum(int lump,
 
         // printf ("cache miss on lump %i\n",lump);
         ptr = Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
-        // lumpcache[lump] = ptr;
+        //lumpcache[lump] = ptr;
         W_ReadLump(lump, lumpcache[lump]);
     }
     else
