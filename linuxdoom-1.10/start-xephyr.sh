@@ -1,1 +1,2 @@
-Xephyr :1 -ac -screen 800x600 & DISPLAY=:1
+DISPLAY=:0
+Xephyr :1 -ac -screen 960x600x8 & DISPLAY=:1
