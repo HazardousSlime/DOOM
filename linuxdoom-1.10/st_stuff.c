@@ -1458,6 +1458,7 @@ void ST_Stop (void)
     if (st_stopped)
 	return;
 
+	//PLAYPAL contains 14 768-byte lumps totalling 10,752 bytes
     I_SetPalette (W_CacheLumpNum (lu_palette, PU_CACHE));
 
     st_stopped = true;
